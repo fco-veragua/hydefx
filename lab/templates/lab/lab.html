@@ -1,0 +1,377 @@
+<!-- lab/templates/lab/lab.html -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hydefx</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Creepster&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-image: url("{% static 'images/lab_background.webp' %}");
+        background-size: cover;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        filter: blur(1px);
+      }
+
+      #potion {
+        position: absolute;
+        bottom: 1vh;
+        left: 60%;
+        transform: translateX(-50%);
+        width: 12vh;
+        z-index: 2;
+        cursor: pointer;
+      }
+
+      #potion img {
+        width: 100%;
+        height: auto;
+        filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.7));
+        animation: pulseGlow 2s infinite;
+      }
+
+      @keyframes pulseGlow {
+        0% {
+          filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.7));
+        }
+        50% {
+          filter: drop-shadow(0 0 40px rgba(255, 0, 0, 1));
+        }
+        100% {
+          filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.7));
+        }
+      }
+
+      #potion img {
+        width: 100%;
+        height: auto;
+      }
+
+      #dr-jekyll {
+        position: absolute;
+        bottom: 0;
+        left: 25%;
+        width: 25vw;
+        z-index: 2;
+        animation: appear 3s forwards;
+      }
+
+      #dr-jekyll img {
+        width: 100%;
+        height: auto;
+      }
+
+      #speech-bubble {
+        position: absolute;
+        bottom: 100%;
+        left: 60%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.9);
+        color: #00ffff;
+        padding: 15px;
+        border: 3px solid rgba(0, 255, 255, 0.7);
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.8),
+          0 0 40px rgba(0, 255, 255, 0.5);
+        font-family: "Creepster", cursive;
+        font-size: 2.5rem;
+        width: 50vh;
+        text-align: center;
+        animation: electricPulse 2s infinite alternate;
+      }
+
+      @keyframes electricPulse {
+        0% {
+          box-shadow: 0 0 10px rgba(0, 255, 255, 0.6),
+            0 0 30px rgba(0, 255, 255, 0.4);
+          border-color: rgba(0, 255, 255, 0.6);
+        }
+        100% {
+          box-shadow: 0 0 20px rgba(0, 255, 255, 1),
+            0 0 60px rgba(0, 255, 255, 0.8);
+          border-color: rgba(0, 255, 255, 1);
+        }
+      }
+
+      @keyframes appear {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes shake {
+        0% {
+          transform: translate(1px, 1px) rotate(0deg);
+        }
+        10% {
+          transform: translate(-1px, -2px) rotate(-1deg);
+        }
+        20% {
+          transform: translate(-3px, 0px) rotate(1deg);
+        }
+        30% {
+          transform: translate(3px, 2px) rotate(0deg);
+        }
+        40% {
+          transform: translate(1px, -1px) rotate(1deg);
+        }
+        50% {
+          transform: translate(-1px, 2px) rotate(-1deg);
+        }
+        60% {
+          transform: translate(-3px, 1px) rotate(0deg);
+        }
+        70% {
+          transform: translate(3px, 1px) rotate(-1deg);
+        }
+        80% {
+          transform: translate(-1px, -1px) rotate(1deg);
+        }
+        90% {
+          transform: translate(1px, 2px) rotate(0deg);
+        }
+        100% {
+          transform: translate(1px, -2px) rotate(-1deg);
+        }
+      }
+
+      #lightning {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 9998;
+        animation: flash 2s infinite ease-in-out, shake 0.5s infinite;
+      }
+
+      #rays {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        background-image: url('{% static "images/rayswoutbg.png" %}');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0;
+        z-index: 9999;
+        animation: flash 2s infinite ease-in-out;
+      }
+
+      @keyframes flash {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="particles-js"></div>
+
+    <div id="potion">
+      <img src="{% static 'images/redpotion.png' %}" alt="Frasco animado" />
+    </div>
+
+    <div id="dr-jekyll">
+      <img src="{% static 'images/doctor-removebg.png' %}" alt="Dr. Jekyll" />
+      <div id="speech-bubble">
+        <p>¡Toma esta poción para aumentar tus capacidades!</p>
+      </div>
+    </div>
+
+    <div id="lightning" style="display: none"></div>
+    <div id="rays" style="display: none"></div>
+
+    <script>
+      document.getElementById("speech-bubble").innerHTML =
+        "<p>¡Esta poción te dará un poder inimaginable!</p>";
+
+      const potion = document.getElementById("potion");
+      const doctor = document.getElementById("dr-jekyll");
+
+      const dialog = document.getElementById("speech-bubble");
+      const lightning = document.getElementById("lightning");
+      const rays = document.getElementById("rays");
+
+      let originalX, originalY;
+      let offsetX, offsetY;
+
+      function saveOriginalPosition() {
+        const rect = potion.getBoundingClientRect();
+        originalX = rect.left;
+        originalY = rect.top;
+      }
+
+      saveOriginalPosition();
+
+      potion.addEventListener("mousedown", function (e) {
+        e.preventDefault();
+        offsetX = e.clientX - potion.getBoundingClientRect().left;
+        offsetY = e.clientY - potion.getBoundingClientRect().top;
+
+        document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseup", onMouseUp);
+      });
+
+      function onMouseMove(e) {
+        potion.style.left = `${e.clientX - offsetX}px`;
+        potion.style.top = `${e.clientY - offsetY}px`;
+        potion.style.position = "absolute";
+      }
+
+      function onMouseUp(e) {
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+
+        const doctorRect = doctor.getBoundingClientRect();
+        const potionRect = potion.getBoundingClientRect();
+
+        if (
+          potionRect.left > doctorRect.left &&
+          potionRect.right < doctorRect.right &&
+          potionRect.top > doctorRect.top &&
+          potionRect.bottom < doctorRect.bottom
+        ) {
+          potion.style.display = "none";
+          dialog.style.display = "none";
+          startEffects();
+        } else {
+          potion.style.left = `${originalX}px`;
+          potion.style.top = `${originalY}px`;
+        }
+      }
+
+      function startEffects() {
+        lightning.style.display = "block";
+        rays.style.display = "block";
+
+        playSoundEffects();
+      }
+
+      function playSoundEffects() {
+        const glassBreakSound = new Audio(
+          "{% static 'sounds/break_cristal.wav' %}"
+        );
+        const roarSound = new Audio("{% static 'sounds/monster_scream.wav' %}");
+
+        glassBreakSound.play();
+        setTimeout(function () {
+          roarSound.play();
+        }, 1500);
+      }
+
+      function startTransformation() {
+        startEffects();
+
+        fetch("{% url 'transform_image' %}")
+          .then((response) => response.text())
+          .then((html) => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+            const newImageUrl = doc.querySelector("#dr-jekyll img").src;
+
+            document.getElementById("#dr-jekyll img").src = newImageUrl;
+          })
+          .catch((error) =>
+            console.error("Error en la transformación:", error)
+          );
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+      particlesJS("particles-js", {
+        particles: {
+          number: {
+            value: 100,
+            density: {
+              enable: true,
+              value_area: 800,
+            },
+          },
+          color: {
+            value: "#ffffff",
+          },
+          shape: {
+            type: "circle",
+          },
+          opacity: {
+            value: 0.1,
+            random: true,
+          },
+          size: {
+            value: 20,
+            random: true,
+          },
+          move: {
+            enable: true,
+            speed: 1,
+            direction: "top",
+            random: false,
+            straight: false,
+            out_mode: "out",
+          },
+          line_linked: {
+            enable: false,
+          },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: {
+              enable: false,
+            },
+            onclick: {
+              enable: true,
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
